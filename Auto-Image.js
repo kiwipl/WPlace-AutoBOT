@@ -4,6 +4,8 @@
     TRANSPARENCY_THRESHOLD: 100,
     WHITE_THRESHOLD: 250,
     LOG_INTERVAL: 10,
+    COOLDOWN_DELAY: 1000,
+
     THEME: {
       primary: '#000000',
       secondary: '#111111',
@@ -241,6 +243,8 @@
     minimized: false,
     lastPosition: { x: 0, y: 0 },
     estimatedTime: 0,
+    cooldownActive: false,
+
     language: 'en'
   };
 
@@ -272,6 +276,12 @@
       };
       input.click();
     }),
+
+    cooldown: async () => {
+      state.cooldownActive = true;
+      await Utils.sleep(CONFIG.COOLDOWN_DELAY);
+      state.cooldownActive = false;
+   },
     
     extractAvailableColors: () => {
       const colorElements = document.querySelectorAll('[id^="color-"]');
@@ -1262,6 +1272,4 @@
     
     updateStats();
   }
-
-  createUI();
 })();
